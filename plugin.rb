@@ -25,8 +25,8 @@ after_initialize do
   module ListHelper
     class << self
       def create_thumbnails(id, image, original_url)
-        normal = image ? thumbnail_url(image, 100, 100) : original_url
-        retina = image ? thumbnail_url(image, 200, 200) : original_url
+        normal = image ? thumbnail_url(image, 230, 147) : original_url
+        retina = image ? thumbnail_url(image, 230, 147) : original_url
         thumbnails = { normal: normal, retina: retina }
         save_thumbnails(id, thumbnails)
         return thumbnails
