@@ -64,7 +64,9 @@ after_initialize do
 
     def update_topic_image
       if @post.is_first_post?
-        img = extract_images_for_topic.first
+        #second pic
+        extract_images = extract_images_for_topic
+        img = extract_images.size > 1 ? extract_images.at(1) : extract_images.first
         return if !img["src"]
         url = img["src"][0...255]
         @post.topic.update_column(:image_url, url)
