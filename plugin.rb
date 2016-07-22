@@ -59,25 +59,26 @@ after_initialize do
     def create_topic_thumbnails(url)
       local = UrlHelper.is_local(url)
       image = local ? Upload.find_by(sha1: url[/[a-z0-9]{40,}/i]) : get_linked_image(url)
+      
       ListHelper.create_thumbnails(@post.topic.id, image, url)
+    end
+
+    def is_image_big_enough?(url)
+      local = UrlHelper.is_local(url)
+      image = local ? Upload.find_by(sha1: url[/[a-z0-9]{40,}/i]) : get_linked_image(url)
+      File.size(image) > 10.kilobytes
     end
 
     def update_topic_image
       if @post.is_first_post?
-        
         extract_images = extract_images_for_topic
-        img = extract_images.size > 1 ? extract_images.at(1) : extract_images.first
-
-
-       # Rails.logger.info("++++++++++++++++++++++")
-       # Rails.logger.info( extract_images.size )
-       # Rails.logger.info( extract_images.inspect )
-       # Rails.logger.info( img.inspect )
-
-
-        return if !img["src"]
-        url = img["src"][0...255]
+        begin
+          img = extract_images.shift
+          next if !img["src"]
+          url = img["src"][0...255]
+        end while(not is_image_big_enough?(url)) and (not extract_images.empty?)
         
+        return if(url.nil? or !img["src"])
        # Rails.logger.info("---------------------")
        # Rails.logger.info( url.inspect  )        
 
