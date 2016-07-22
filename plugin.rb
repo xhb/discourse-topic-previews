@@ -51,7 +51,7 @@ after_initialize do
 
     def get_linked_image(url)
       max_size = SiteSetting.max_image_size_kb.kilobytes
-      file = FileHelper.download(url, max_size, "discourse", true) rescue nil
+      file = FileHelper.download(url, max_size, "discourse", true, 10) rescue nil
       image = file ? Upload.create_for(@post.user_id, file, file.path.split('/')[-1], File.size(file.path)) : nil
       image
     end
@@ -64,9 +64,10 @@ after_initialize do
 
     def update_topic_image
       if @post.is_first_post?
-        #second pic
+        
         extract_images = extract_images_for_topic
         img = extract_images.size > 1 ? extract_images.at(1) : extract_images.first
+        
         return if !img["src"]
         url = img["src"][0...255]
         @post.topic.update_column(:image_url, url)
