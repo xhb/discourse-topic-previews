@@ -67,9 +67,20 @@ after_initialize do
         
         extract_images = extract_images_for_topic
         img = extract_images.size > 1 ? extract_images.at(1) : extract_images.first
-        
+
+
+       # Rails.logger.info("++++++++++++++++++++++")
+       # Rails.logger.info( extract_images.size )
+       # Rails.logger.info( extract_images.inspect )
+       # Rails.logger.info( img.inspect )
+
+
         return if !img["src"]
         url = img["src"][0...255]
+        
+       # Rails.logger.info("---------------------")
+       # Rails.logger.info( url.inspect  )        
+
         @post.topic.update_column(:image_url, url)
         create_topic_thumbnails(url)
       end
