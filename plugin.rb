@@ -83,6 +83,7 @@ after_initialize do
         return true 
       else
         return false if image.height.nil? 
+        return true if image.height == 230 
         image.height > 235 ? true : false
       end
     end
