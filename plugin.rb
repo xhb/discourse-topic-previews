@@ -82,9 +82,15 @@ after_initialize do
       if local 
         return true 
       else
-        return false if image.height.nil? 
-        return true if image.height == 230 
-        image.height > 235 ? true : false
+        if image.height.nil?
+          return false
+        elsif image.height == 147
+          return true
+        elsif image.height > 235
+          return true
+        else
+          return false
+        end
       end
     end
 
