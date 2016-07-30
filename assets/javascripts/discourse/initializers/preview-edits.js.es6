@@ -6,7 +6,7 @@ import TopicList from 'discourse/components/topic-list';
 import { default as computed, on, observes } from 'ember-addons/ember-computed-decorators';
 import { popupAjaxError } from 'discourse/lib/ajax-error';
 import DiscourseURL from 'discourse/lib/url';
-#import { ajax } from 'discourse/lib/ajax';
+
 
 var animateHeart = function($elem, start, end, complete) {
   if (Ember.testing) { return Ember.run(this, complete); }
@@ -271,7 +271,6 @@ export default {
       },
 
       sendAction(postId) {
-        #ajax("/post_actions", {
         Discourse.ajax("/post_actions", {
           type: 'POST',
           data: {
@@ -285,7 +284,6 @@ export default {
       },
 
       sendBookmark(postId, bookmarked) {
-        #return ajax("/posts/" + postId + "/bookmark", {
         return Discourse.ajax("/posts/" + postId + "/bookmark", {
           type: 'PUT',
           data: { bookmarked: bookmarked }
@@ -295,7 +293,6 @@ export default {
       },
 
       removeAction(postId) {
-        #ajax("/post_actions/" + postId, {
         Discourse.ajax("/post_actions/" + postId, {
           type: 'DELETE',
           data: {
