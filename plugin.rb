@@ -95,7 +95,7 @@ after_initialize do
     end
 
     def update_topic_image
-      if @post.is_first_post?
+      if @post.is_first_post? and @post.topic.image_url.nil?
         extract_images = extract_images_for_topic
         if extract_images.size > 1
           #select a pic with height bigger than 235
